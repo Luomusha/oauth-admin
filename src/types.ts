@@ -17,6 +17,7 @@ export interface Client {
     refreshTokenLifetime?: number
     createdAt?: Date
     updatedAt?: Date
+    users?: User[]
 }
 
 export interface Token {

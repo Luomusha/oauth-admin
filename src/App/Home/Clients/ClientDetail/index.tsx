@@ -2,7 +2,7 @@ import { Button, Card, Descriptions, DescriptionsProps, Image, Input, Space, Tab
 import useSWR from 'swr';
 import { Link, useParams } from 'react-router-dom';
 import { get } from '../../../../common/fetch';
-import { Client } from '../../../../types';
+import { Client, User } from '../../../../types';
 
 export default () => {
     const { id } = useParams();
@@ -11,23 +11,25 @@ export default () => {
     const items: DescriptionsProps['items'] = [
         {
             key: '1',
-            label: 'App Name',
-            children: data?.name,
+            label: 'Client ID',
+            span: 3,
+            children: data?.id,
         },
         {
             key: '2',
-            label: 'Logo',
-            children: data?.description,
+            label: 'Client Secret',
+            span: 3,
+            children: data?.secret,
         },
         {
             key: '3',
-            label: 'Created',
+            label: 'Created At',
             children: data?.createdAt?.toLocaleString(),
         },
         {
             key: '4',
-            label: 'Secret',
-            children: data?.secret,
+            label: 'Updated At',
+            children: data?.updatedAt?.toLocaleString(),
         },
         {
             key: '5',
@@ -39,7 +41,33 @@ export default () => {
             label: 'Refresh Token Lifetime',
             children: data?.refreshTokenLifetime,
         },
+        {
+            key: '7',
+            label: 'Description',
+            children: data?.description,
+        },
     ];
+
+    const columns = [{
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+    }, {
+        title: 'User Name',
+        dataIndex: 'username',
+        key: 'username',
+    }, {
+        title: 'Avatar',
+        dataIndex: 'avatar',
+        key: 'avatar',
+        render: (avatar: string) => <img height={22} src={avatar} className='block' />
+
+    }, {
+        title: 'Action',
+        render: (row: User) => <Space size="middle">
+            <Link to={`/users/${row.id.toString()}`}>Detail</Link>
+        </Space>
+    },];
 
     return <div>
         <Card bordered={false}>
@@ -47,7 +75,10 @@ export default () => {
         </Card>
 
         <Card className='mt-4'>
-            <Descriptions title="Application Info" items={items} />
+            <Descriptions title={data?.name} items={items} />
+        </Card>
+        <Card className='mt-4'>
+            <Table dataSource={data?.users} columns={columns} loading={isLoading} rowKey={r => r.id} size='small' />
         </Card>
     </div>
 }
