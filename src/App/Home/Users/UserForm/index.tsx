@@ -30,7 +30,7 @@ export default () => {
             </Form.Item>
 
             <Form.Item label="Avatar" name="avatar" valuePropName='file' rules={[{ required: true, message: 'Please input your password!' }]} getValueFromEvent={afterUpload}>
-                <Upload action="/upload.do" listType="picture" accept='image/*'>
+                <Upload action="/upload.do" listType="picture" multiple={false} maxCount={1} accept='image/*'>
                     <Button icon={<UploadOutlined />}>Click to upload</Button>
                 </Upload>
             </Form.Item>

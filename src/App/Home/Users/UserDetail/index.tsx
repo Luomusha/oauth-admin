@@ -1,4 +1,4 @@
-import { Button, Descriptions, DescriptionsProps, Flex, Input, Space, Table, Typography } from 'antd';
+import { Button, Card, Descriptions, DescriptionsProps, Flex, Input, Space, Table, Typography } from 'antd';
 import useSWR from 'swr';
 import { Link, useParams } from 'react-router-dom';
 import { get } from '../../../../common/fetch';
@@ -36,7 +36,40 @@ export default () => {
         },
     ];
 
-    return <div className='bg-white rounded px-3 py-2'>
-        <Descriptions title="User Info" items={items} />
+
+    const columns = [{
+        title: 'Identity Type',
+        dataIndex: 'identityType',
+        key: 'identityType',
+    }, {
+        title: 'identifier',
+        dataIndex: 'identifier',
+        key: 'identifier',
+    }, {
+        title: 'Certificate',
+        dataIndex: 'certificate',
+        key: 'certificate',
+    }, {
+        title: 'Updated At',
+        dataIndex: 'updatedAt',
+        key: 'updatedAt',
+    }, {
+        title: 'Created At',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+    }, {
+        title: 'Action',
+        render: (row: User) => <Space size="middle">
+            <Link to={`/users/${row.id.toString()}`}>Detail</Link>
+        </Space>
+    },];
+
+    return <div>
+        <Card>
+            <Descriptions title="User Info" items={items} />
+        </Card>
+        <Card className='mt-4'>
+            <Table dataSource={data?.accounts} columns={columns} loading={isLoading} rowKey={r => r.id} size='small' />
+        </Card>
     </div>
 }

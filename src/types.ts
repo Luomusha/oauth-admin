@@ -1,8 +1,22 @@
 
 export interface User {
-    id: string
+    readonly id: string
     username: string
     avatar: string
+    createdAt?: Date
+    updatedAt?: Date
+    clients?: Client[]
+    accounts?: Account[]
+}
+
+export interface Account {
+    readonly id: string
+    readonly uid: string
+    identityType: string
+    identifier: string
+    certificate: string
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 export interface Client {
